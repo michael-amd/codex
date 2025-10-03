@@ -200,10 +200,11 @@ mkdir -p ~/.codex
 config_file="$HOME/.codex/config.toml"
 cat > "$config_file" << 'EOF'
 # Codex CLI Configuration for AMD LLM Gateway
-# Multi-profile configuration with o3 as default
+# Multi-profile configuration with GPT-5 Codex (high reasoning) as default
 
-model = "o3"
-model_provider = "amd_gateway"
+# Default model switched to GPT-5 Codex (high-reasoning preset)
+model = "gpt-5-codex"
+model_provider = "gpt5_gateway"
 projects = { "/proj/cad_ml2/zoliu/gateway" = { trust_level = "trusted" } , "/proj/cad_ml2/zoliu/fresh_codex" = { trust_level = "trusted" }, "/proj/cad_ml2/zoliu/AMD_gateway_union" = { trust_level = "trusted" } }
 
 [model_providers.amd_gateway]
@@ -220,7 +221,7 @@ wire_api = "chat"
 
 [model_providers.gpt5_gateway]
 name = "AMD LLM Gateway - GPT-5"
-base_url = "https://llm-api.amd.com/openai/gpt-5"
+base_url = "https://llm-api.amd.com/openai/gpt-5-codex"
 wire_api = "responses"
 query_params = { api-version = "2025-04-01-preview" }
 env_http_headers = { "Ocp-Apim-Subscription-Key" = "AMD_LLM_API_KEY" }
@@ -241,7 +242,8 @@ model_provider = "babel_gateway"
 
 # Profile for GPT-5 (non-default)
 [profiles.gpt5]
-model = "gpt-5"
+# GPT-5 Codex high reasoning profile
+model = "gpt-5-codex"
 model_provider = "gpt5_gateway"
 # GPT-5 specific notes:
 # - No temperature parameter support (uses default 1.0)
@@ -401,11 +403,11 @@ echo "  * Configuration: $config_file"
 echo "  * API Key variable: AMD_LLM_API_KEY (needs to be set)"
 echo ""
 echo "Available model profiles:"
-echo "  * codex --profile o3      (default, o3, AMD Gateway, responses API)"
-echo "  * codex --profile gpt5    (GPT-5, AMD Gateway, responses API)"
+echo "  * codex --profile gpt5    (default, GPT-5 Codex high reasoning, AMD Gateway, responses API)"
+echo "  * codex --profile o3      (o3, AMD Gateway, responses API)"
 echo "  * codex --profile claude  (Claude-Sonnet-4, Babel local gateway, chat API)"
 echo "  * codex --profile gemini  (gemini-2.5-pro, Babel local gateway, chat API)"
-echo "  * codex                   (uses o3 by default)"
+echo "  * codex                   (uses GPT-5 Codex by default)"
 echo ""
 echo "Next steps:"
 echo "  1. Set your AMD_LLM_API_KEY environment variable"
